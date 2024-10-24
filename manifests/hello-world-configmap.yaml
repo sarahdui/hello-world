@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: hello-world-config
-  namespace: test-hello-app
+  namespace: hello-world
 data:
   index.html: |
     <html>
