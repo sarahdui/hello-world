@@ -1,21 +1,28 @@
-# website::tag::1:: Deploy the training/webapp Docker Container: https://hub.docker.com/r/training/webapp/
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hello-world-deployment
+  namespace: hello-world
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: hello-world
-  replicas: 1
   template:
     metadata:
       labels:
         app: hello-world
     spec:
       containers:
-        # website::tag::2:: The container runs a Python webapp on port 5000 that responds with "Hello, World!"
-        - name: hello-world
-          image: training/webapp:latest
-          ports:
-            - containerPort: 5000
+      - name: hello-world
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: hello-world-html
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: hello-world-html
+        configMap:
+          name: hello-world-config
